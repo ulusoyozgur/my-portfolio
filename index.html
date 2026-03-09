@@ -45,7 +45,7 @@
             transition: background-color 0.4s ease, color 0.4s ease; 
             background-color: #f8fafc; 
             color: #334155; 
-            overflow-x: hidden; /* Yatay kaydırmayı engelle */
+            overflow-x: hidden; 
         }
         html.dark body { 
             background-color: #09090b; 
@@ -61,6 +61,7 @@
             border: 1px solid rgba(226, 232, 240, 0.8); 
             transition: all 0.4s ease;
         }
+
         .hover-glass:hover { 
             background: rgba(241, 245, 249, 0.9); 
             border-color: rgba(203, 213, 225, 0.8); 
@@ -77,7 +78,6 @@
 
         .theme-icon { transition: transform 0.5s cubic-bezier(0.4, 0, 0.2, 1), opacity 0.5s ease; }
 
-        /* CANLI DEMO STİLLERİ GÜNCELLENDİ */
         #video-container { position: relative; overflow: hidden; border-radius: 1rem; background: #000; width: 100%; }
         #webcam { width: 100%; height: 100%; object-fit: cover; }
         
@@ -88,7 +88,6 @@
         .scanning #camera-overlay { box-shadow: inset 0 0 50px rgba(16, 185, 129, 0.2); }
         .lost #camera-overlay { box-shadow: inset 0 0 50px rgba(239, 68, 68, 0.2); border-color: rgba(239, 68, 68, 0.4); }
         
-        /* Dinamik Takip Kutusu */
         .target-box { 
             position: absolute;
             border: 2px solid #10b981;
@@ -111,10 +110,10 @@
 </head>
 <body class="antialiased font-sans flex flex-col min-h-screen">
 
-    <nav class="fixed w-full top-0 z-50 glass-panel border-b-0 dark:border-zinc-800/50 border-slate-200">
-        <div class="max-w-6xl mx-auto px-6 py-4 md:py-5 flex justify-between items-center">
+    <nav class="fixed w-full top-0 z-[100] glass-panel border-b-0 dark:border-zinc-800/50 border-slate-200">
+        <div class="max-w-6xl mx-auto px-6 py-4 md:py-5 flex justify-between items-center relative z-[101]">
             
-            <a href="#" class="font-sans text-lg font-bold tracking-tight text-slate-900 dark:text-zinc-100 transition-colors flex items-center z-50 relative">
+            <a href="#" class="font-sans text-lg font-bold tracking-tight text-slate-900 dark:text-zinc-100 transition-colors flex items-center">
                 Özgür Ulusoy 
                 <span class="text-blue-600 dark:text-purple-500 ml-1 font-mono animate-pulse">_</span>
             </a>
@@ -153,12 +152,12 @@
             </div>
         </div>
 
-        <div id="mobile-menu" class="hidden md:hidden absolute top-full left-0 w-full glass-panel border-t border-slate-200 dark:border-zinc-800 shadow-xl">
-            <div class="flex flex-col px-6 py-4 space-y-4 text-xs font-sans font-semibold tracking-[0.2em] text-slate-500 dark:text-zinc-400 uppercase">
-                <a href="#about" onclick="toggleMobileMenu()" class="block py-2 hover:text-slate-900 dark:hover:text-zinc-100 transition-colors">Hakkımda</a>
-                <a href="#expertise" onclick="toggleMobileMenu()" class="block py-2 hover:text-slate-900 dark:hover:text-zinc-100 transition-colors">Yetenekler</a>
-                <a href="#projects" onclick="toggleMobileMenu()" class="block py-2 hover:text-slate-900 dark:hover:text-zinc-100 transition-colors">Projeler</a>
-                <a href="#vision-demo" onclick="toggleMobileMenu()" class="block py-2 text-emerald-500 font-bold hover:text-emerald-400 transition-colors">CANLI DEMO</a>
+        <div id="mobile-menu" class="hidden md:hidden absolute top-full left-0 w-full bg-white dark:bg-zinc-950 border-t border-b border-slate-200 dark:border-zinc-800 shadow-2xl z-[99]">
+            <div class="flex flex-col px-6 py-6 space-y-6 text-center text-sm font-sans font-bold tracking-[0.2em] text-slate-600 dark:text-zinc-400 uppercase">
+                <a href="#about" onclick="toggleMobileMenu()" class="block py-2 hover:text-blue-600 dark:hover:text-zinc-100 transition-colors">Hakkımda</a>
+                <a href="#expertise" onclick="toggleMobileMenu()" class="block py-2 hover:text-blue-600 dark:hover:text-zinc-100 transition-colors">Yetenekler</a>
+                <a href="#projects" onclick="toggleMobileMenu()" class="block py-2 hover:text-blue-600 dark:hover:text-zinc-100 transition-colors">Projeler</a>
+                <a href="#vision-demo" onclick="toggleMobileMenu()" class="block py-2 text-emerald-600 dark:text-emerald-500 font-extrabold hover:text-emerald-400 transition-colors">CANLI DEMO</a>
             </div>
         </div>
     </nav>
