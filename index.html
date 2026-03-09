@@ -2,7 +2,7 @@
 <html lang="tr" class="scroll-smooth dark">
 <head>
     <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no">
     <title>Özgür Ulusoy | Software & AI Engineer</title>
     
     <script src="https://cdn.tailwindcss.com"></script>
@@ -45,6 +45,7 @@
             transition: background-color 0.4s ease, color 0.4s ease; 
             background-color: #f8fafc; 
             color: #334155; 
+            overflow-x: hidden; /* Yatay kaydırmayı engelle */
         }
         html.dark body { 
             background-color: #09090b; 
@@ -77,7 +78,7 @@
         .theme-icon { transition: transform 0.5s cubic-bezier(0.4, 0, 0.2, 1), opacity 0.5s ease; }
 
         /* CANLI DEMO STİLLERİ GÜNCELLENDİ */
-        #video-container { position: relative; overflow: hidden; border-radius: 1rem; background: #000; }
+        #video-container { position: relative; overflow: hidden; border-radius: 1rem; background: #000; width: 100%; }
         #webcam { width: 100%; height: 100%; object-fit: cover; }
         
         #camera-overlay {
@@ -111,9 +112,9 @@
 <body class="antialiased font-sans flex flex-col min-h-screen">
 
     <nav class="fixed w-full top-0 z-50 glass-panel border-b-0 dark:border-zinc-800/50 border-slate-200">
-        <div class="max-w-6xl mx-auto px-6 py-5 flex justify-between items-center">
+        <div class="max-w-6xl mx-auto px-6 py-4 md:py-5 flex justify-between items-center">
             
-            <a href="#" class="font-sans text-lg font-bold tracking-tight text-slate-900 dark:text-zinc-100 transition-colors flex items-center">
+            <a href="#" class="font-sans text-lg font-bold tracking-tight text-slate-900 dark:text-zinc-100 transition-colors flex items-center z-50 relative">
                 Özgür Ulusoy 
                 <span class="text-blue-600 dark:text-purple-500 ml-1 font-mono animate-pulse">_</span>
             </a>
@@ -134,24 +135,49 @@
                     </svg>
                 </button>
             </div>
+
+            <div class="flex items-center gap-4 md:hidden">
+                <button onclick="toggleTheme()" class="relative w-8 h-8 flex items-center justify-center rounded-full bg-slate-200 dark:bg-zinc-800 hover:bg-slate-300 dark:hover:bg-zinc-700 transition-colors focus:outline-none">
+                     <svg class="w-4 h-4 text-zinc-300 absolute theme-icon scale-0 opacity-0 dark:scale-100 dark:opacity-100" fill="none" viewBox="0 0 24 24" stroke="currentColor">
+                        <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M12 3v1m0 16v1m9-9h-1M4 12H3m15.364 6.364l-.707-.707M6.343 6.343l-.707-.707m12.728 0l-.707.707M6.343 17.657l-.707.707M16 12a4 4 0 11-8 0 4 4 0 018 0z" />
+                    </svg>
+                    <svg class="w-4 h-4 text-slate-700 absolute theme-icon scale-100 opacity-100 dark:scale-0 dark:opacity-0" fill="none" viewBox="0 0 24 24" stroke="currentColor">
+                        <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M20.354 15.354A9 9 0 018.646 3.646 9.003 9.003 0 0012 21a9.003 9.003 0 008.354-5.646z" />
+                    </svg>
+                </button>
+                <button id="mobile-menu-btn" class="text-slate-900 dark:text-zinc-100 focus:outline-none p-2">
+                    <svg class="w-6 h-6" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                        <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M4 6h16M4 12h16m-7 6h7"></path>
+                    </svg>
+                </button>
+            </div>
+        </div>
+
+        <div id="mobile-menu" class="hidden md:hidden absolute top-full left-0 w-full glass-panel border-t border-slate-200 dark:border-zinc-800 shadow-xl">
+            <div class="flex flex-col px-6 py-4 space-y-4 text-xs font-sans font-semibold tracking-[0.2em] text-slate-500 dark:text-zinc-400 uppercase">
+                <a href="#about" onclick="toggleMobileMenu()" class="block py-2 hover:text-slate-900 dark:hover:text-zinc-100 transition-colors">Hakkımda</a>
+                <a href="#expertise" onclick="toggleMobileMenu()" class="block py-2 hover:text-slate-900 dark:hover:text-zinc-100 transition-colors">Yetenekler</a>
+                <a href="#projects" onclick="toggleMobileMenu()" class="block py-2 hover:text-slate-900 dark:hover:text-zinc-100 transition-colors">Projeler</a>
+                <a href="#vision-demo" onclick="toggleMobileMenu()" class="block py-2 text-emerald-500 font-bold hover:text-emerald-400 transition-colors">CANLI DEMO</a>
+            </div>
         </div>
     </nav>
 
-    <main class="flex-grow max-w-6xl mx-auto px-6 pt-32 pb-24 w-full">
+    <main class="flex-grow max-w-6xl mx-auto px-6 pt-28 md:pt-32 pb-12 md:pb-24 w-full overflow-hidden">
         
-        <section id="about" class="py-20 md:py-32">
+        <section id="about" class="py-12 md:py-32">
             <div class="flex items-center space-x-3 mb-8">
                 <div class="w-2 h-2 rounded-full bg-blue-600 dark:bg-purple-500 animate-pulse"></div>
                 <span class="font-mono text-xs tracking-widest uppercase text-slate-500 dark:text-zinc-400">Yazılım Mühendisliği & AI</span>
             </div>
             
-            <h1 class="text-5xl md:text-7xl lg:text-8xl font-extrabold tracking-tighter text-transparent bg-clip-text bg-gradient-to-b from-slate-900 to-slate-500 dark:from-zinc-100 dark:to-zinc-600 mb-8 leading-[1.1] transition-colors duration-300">
+            <h1 class="text-4xl md:text-7xl lg:text-8xl font-extrabold tracking-tighter text-transparent bg-clip-text bg-gradient-to-b from-slate-900 to-slate-500 dark:from-zinc-100 dark:to-zinc-600 mb-8 leading-[1.1] transition-colors duration-300">
                 Veri odaklı çözümler. <br class="hidden md:block">
                 Akıllı algoritmalar.
             </h1>
             
-            <div class="grid grid-cols-1 md:grid-cols-2 gap-12 mt-16">
-                <p class="text-lg text-slate-600 dark:text-zinc-400 leading-relaxed font-light transition-colors">
+            <div class="grid grid-cols-1 md:grid-cols-2 gap-8 md:gap-12 mt-8 md:mt-16">
+                <p class="text-base md:text-lg text-slate-600 dark:text-zinc-400 leading-relaxed font-light transition-colors">
                     Karmaşık problemleri modern yazılım mimarileri ve yapay zeka modelleriyle çözüyorum. Veri yapıları, algoritma optimizasyonu ve makine öğrenmesi üzerine yoğunlaşıyorum.
                 </p>
                 <div class="flex flex-col justify-center space-y-4 md:items-end">
@@ -166,13 +192,13 @@
         <section id="expertise" class="py-12 border-t border-slate-200 dark:border-zinc-800/50 transition-colors">
             <div class="grid grid-cols-1 lg:grid-cols-3 gap-6">
                 
-                <div class="glass-panel hover-glass p-8 rounded-2xl flex flex-col justify-between group">
+                <div class="glass-panel hover-glass p-6 md:p-8 rounded-2xl flex flex-col justify-between group">
                     <div>
                         <h3 class="font-mono text-xs tracking-widest uppercase text-slate-500 dark:text-zinc-500 mb-6 transition-colors">Eğitim</h3>
-                        <h4 class="text-2xl font-bold text-slate-900 dark:text-zinc-100 tracking-tight mb-2 transition-colors">Fırat Üniversitesi</h4>
+                        <h4 class="text-xl md:text-2xl font-bold text-slate-900 dark:text-zinc-100 tracking-tight mb-2 transition-colors">Fırat Üniversitesi</h4>
                         <p class="text-slate-600 dark:text-zinc-400 font-medium transition-colors">Yazılım Mühendisliği</p>
                     </div>
-                    <div class="mt-12">
+                    <div class="mt-8 md:mt-12">
                         <div class="inline-flex items-center space-x-2 px-3 py-1 rounded-full border border-slate-300 dark:border-zinc-700 bg-slate-100 dark:bg-zinc-800/50 text-xs font-mono text-slate-600 dark:text-zinc-300 transition-colors">
                             <span class="w-1.5 h-1.5 rounded-full bg-green-500 animate-pulse"></span>
                             <span>Lisans - 1. Sınıf</span>
@@ -180,11 +206,11 @@
                     </div>
                 </div>
 
-                <div class="glass-panel hover-glass p-8 rounded-2xl lg:col-span-2 flex flex-col justify-center">
-                    <div class="grid grid-cols-1 md:grid-cols-2 gap-12">
+                <div class="glass-panel hover-glass p-6 md:p-8 rounded-2xl lg:col-span-2 flex flex-col justify-center">
+                    <div class="grid grid-cols-1 md:grid-cols-2 gap-8 md:gap-12">
                         <div>
                             <h3 class="font-mono text-xs tracking-widest uppercase text-slate-500 dark:text-zinc-500 mb-6 transition-colors">// Temel Yetenekler</h3>
-                            <ul class="space-y-4 text-slate-700 dark:text-zinc-300 font-medium transition-colors">
+                            <ul class="space-y-4 text-slate-700 dark:text-zinc-300 font-medium transition-colors text-sm md:text-base">
                                 <li class="flex items-center space-x-3"><span class="w-6 h-[1px] bg-slate-300 dark:bg-zinc-600"></span><span>Nesne Yönelimli Programlama (OOP)</span></li>
                                 <li class="flex items-center space-x-3"><span class="w-6 h-[1px] bg-slate-300 dark:bg-zinc-600"></span><span>Veri Yapıları & Algoritmalar</span></li>
                                 <li class="flex items-center space-x-3"><span class="w-6 h-[1px] bg-slate-300 dark:bg-zinc-600"></span><span>Matematiksel Modelleme</span></li>
@@ -192,7 +218,7 @@
                         </div>
                         <div>
                             <h3 class="font-mono text-xs tracking-widest uppercase text-slate-500 dark:text-zinc-500 mb-6 transition-colors">// İlgi Alanları & Stack</h3>
-                            <ul class="space-y-4 text-slate-700 dark:text-zinc-300 font-medium transition-colors">
+                            <ul class="space-y-4 text-slate-700 dark:text-zinc-300 font-medium transition-colors text-sm md:text-base">
                                 <li class="flex items-center space-x-3"><span class="text-slate-400 dark:text-zinc-600 font-mono">01.</span><span>Python & Java</span></li>
                                 <li class="flex items-center space-x-3"><span class="text-slate-400 dark:text-zinc-600 font-mono">02.</span><span>Yapay Zeka (AI) & ML</span></li>
                                 <li class="flex items-center space-x-3"><span class="text-slate-400 dark:text-zinc-600 font-mono">03.</span><span>Veri Analizi (Pandas/NumPy)</span></li>
@@ -204,12 +230,12 @@
             </div>
         </section>
 
-        <section id="projects" class="py-20 border-t border-slate-200 dark:border-zinc-800/50 mt-12 transition-colors">
-            <h2 class="text-3xl font-extrabold tracking-tight text-slate-900 dark:text-zinc-100 mb-12 transition-colors">Projeler & Denemeler.</h2>
+        <section id="projects" class="py-12 md:py-20 border-t border-slate-200 dark:border-zinc-800/50 mt-8 md:mt-12 transition-colors">
+            <h2 class="text-2xl md:text-3xl font-extrabold tracking-tight text-slate-900 dark:text-zinc-100 mb-8 md:mb-12 transition-colors">Projeler & Denemeler.</h2>
             
             <div class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6">
                 
-                <div class="glass-panel hover-glass p-8 rounded-2xl group cursor-pointer relative overflow-hidden transition-all duration-300 flex flex-col justify-between">
+                <div class="glass-panel hover-glass p-6 md:p-8 rounded-2xl group cursor-pointer relative overflow-hidden transition-all duration-300 flex flex-col justify-between">
                     <div class="absolute top-0 right-0 p-8 opacity-5 dark:opacity-10 group-hover:opacity-10 dark:group-hover:opacity-20 transition-opacity">
                         <svg class="w-24 h-24 text-slate-900 dark:text-zinc-100" fill="none" viewBox="0 0 24 24" stroke="currentColor"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="1" d="M19.428 15.428a2 2 0 00-1.022-.547l-2.384-.477a6 6 0 00-3.86.517l-.318.158a6 6 0 01-3.86.517L6.05 15.21a2 2 0 00-1.806.547M8 4h8l-1 1v5.172a2 2 0 00.586 1.414l5 5c1.26 1.26.367 3.414-1.415 3.414H4.828c-1.782 0-2.674-2.154-1.414-3.414l5-5A2 2 0 009 10.172V5L8 4z"></path></svg>
                     </div>
@@ -217,7 +243,7 @@
                         <div class="flex items-center justify-between mb-6">
                             <span class="font-mono text-xs tracking-widest text-blue-600 dark:text-purple-400 uppercase transition-colors">Prototip</span>
                         </div>
-                        <h3 class="text-2xl font-bold text-slate-900 dark:text-zinc-100 mb-3 transition-colors">Data Insight Model</h3>
+                        <h3 class="text-xl md:text-2xl font-bold text-slate-900 dark:text-zinc-100 mb-3 transition-colors">Data Insight Model</h3>
                         <p class="text-sm text-slate-600 dark:text-zinc-400 leading-relaxed mb-8 transition-colors">
                             Büyük veri setleri üzerinde temel istatistiksel analizler yapan ve Python ile görselleştiren veri işleme aracı.
                         </p>
@@ -228,7 +254,7 @@
                     </div>
                 </div>
 
-                <div class="glass-panel hover-glass p-8 rounded-2xl group cursor-pointer relative overflow-hidden transition-all duration-300 flex flex-col justify-between">
+                <div class="glass-panel hover-glass p-6 md:p-8 rounded-2xl group cursor-pointer relative overflow-hidden transition-all duration-300 flex flex-col justify-between">
                     <div class="absolute top-0 right-0 p-8 opacity-5 dark:opacity-10 group-hover:opacity-10 dark:group-hover:opacity-20 transition-opacity">
                         <svg class="w-24 h-24 text-slate-900 dark:text-zinc-100" fill="none" viewBox="0 0 24 24" stroke="currentColor"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="1" d="M13 10V3L4 14h7v7l9-11h-7z"></path></svg>
                     </div>
@@ -236,7 +262,7 @@
                         <div class="flex items-center justify-between mb-6">
                             <span class="font-mono text-xs tracking-widest text-slate-500 uppercase transition-colors">Geliştirme Aşamasında</span>
                         </div>
-                        <h3 class="text-2xl font-bold text-slate-900 dark:text-zinc-100 mb-3 transition-colors">Smart Automation</h3>
+                        <h3 class="text-xl md:text-2xl font-bold text-slate-900 dark:text-zinc-100 mb-3 transition-colors">Smart Automation</h3>
                         <p class="text-sm text-slate-600 dark:text-zinc-400 leading-relaxed mb-8 transition-colors">
                             Java kullanarak dosya yönetimini otomatize eden ve verimliliği artıran akıllı sistem algoritması.
                         </p>
@@ -247,7 +273,7 @@
                     </div>
                 </div>
 
-                <a href="https://github.com/ulusoyozgur/VisionGuard" target="_blank" rel="noopener noreferrer" class="glass-panel hover-glass p-8 rounded-2xl group cursor-pointer relative overflow-hidden transition-all duration-300 flex flex-col justify-between block">
+                <a href="https://github.com/ulusoyozgur/VisionGuard" target="_blank" rel="noopener noreferrer" class="glass-panel hover-glass p-6 md:p-8 rounded-2xl group cursor-pointer relative overflow-hidden transition-all duration-300 flex flex-col justify-between block">
                     <div class="absolute top-0 right-0 p-8 opacity-5 dark:opacity-10 group-hover:opacity-10 transition-opacity">
                         <svg class="w-24 h-24 text-slate-900 dark:text-zinc-100" fill="none" viewBox="0 0 24 24" stroke="currentColor"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="1" d="M15 12a3 3 0 11-6 0 3 3 0 016 0z"></path><path stroke-linecap="round" stroke-linejoin="round" stroke-width="1" d="M2.458 12C3.732 7.943 7.523 5 12 5c4.478 0 8.268 2.943 9.542 7-1.274 4.057-5.064 7-9.542 7-4.477 0-8.268-2.943-9.542-7z"></path></svg>
                     </div>
@@ -256,7 +282,7 @@
                         <div class="flex items-center justify-between mb-6">
                             <span class="font-mono text-xs tracking-widest text-emerald-600 dark:text-emerald-400 uppercase transition-colors">Computer Vision</span>
                         </div>
-                        <h3 class="text-2xl font-bold text-slate-900 dark:text-zinc-100 mb-3 transition-colors">VisionGuard AI</h3>
+                        <h3 class="text-xl md:text-2xl font-bold text-slate-900 dark:text-zinc-100 mb-3 transition-colors">VisionGuard AI</h3>
                         <p class="text-sm text-slate-600 dark:text-zinc-400 leading-relaxed mb-8 transition-colors">
                             Python ve OpenCV kullanılarak geliştirilen; Haar Cascade algoritmalarıyla gerçek zamanlı yüz tespiti ve takibi yapan görüntü işleme projesi.
                         </p>
@@ -270,14 +296,14 @@
             </div>
         </section>
 
-        <section id="vision-demo" class="py-20 border-t border-slate-200 dark:border-zinc-800/50 transition-colors">
-            <h2 class="text-3xl font-extrabold tracking-tight text-slate-900 dark:text-zinc-100 mb-12 transition-colors">VisionGuard <span class="text-emerald-500">Canlı Demo</span>.</h2>
+        <section id="vision-demo" class="py-12 md:py-20 border-t border-slate-200 dark:border-zinc-800/50 transition-colors">
+            <h2 class="text-2xl md:text-3xl font-extrabold tracking-tight text-slate-900 dark:text-zinc-100 mb-8 md:mb-12 transition-colors">VisionGuard <span class="text-emerald-500">Canlı Demo</span>.</h2>
             
-            <div class="glass-panel p-6 md:p-8 rounded-3xl border-2 border-emerald-500/20 shadow-2xl shadow-emerald-500/5">
+            <div class="glass-panel p-4 md:p-8 rounded-3xl border-2 border-emerald-500/20 shadow-2xl shadow-emerald-500/5">
                 <div class="flex flex-col md:flex-row gap-8 items-center">
                     <div class="w-full md:w-2/3">
-                        <div id="video-container" class="aspect-video shadow-2xl shadow-black/50">
-                            <video id="webcam" autoplay playsinline></video>
+                        <div id="video-container" class="aspect-video shadow-2xl shadow-black/50 w-full relative">
+                            <video id="webcam" autoplay playsinline muted></video>
                             <div id="camera-overlay">
                                 <div id="target-box" class="target-box">
                                     <span id="target-text" class="absolute -top-8 left-1/2 -translate-x-1/2 bg-emerald-500 text-white text-[10px] px-2 py-1 rounded font-mono whitespace-nowrap">HEDEF KİLİTLENDİ</span>
@@ -310,8 +336,8 @@
 
     <footer class="border-t border-slate-200 dark:border-zinc-800/50 bg-white/80 dark:bg-zinc-950/50 backdrop-blur-md transition-colors">
         <div class="max-w-6xl mx-auto px-6 py-8 flex flex-col md:flex-row justify-between items-center text-xs font-mono text-slate-500 dark:text-zinc-600 transition-colors">
-            <p>&copy; 2026 Özgür Ulusoy. CODING THE FUTURE.</p>
-            <div class="flex space-x-6 mt-4 md:mt-0">
+            <p class="mb-4 md:mb-0 text-center md:text-left">&copy; 2026 Özgür Ulusoy. CODING THE FUTURE.</p>
+            <div class="flex space-x-6">
                 <a href="mailto:ulusoyozgurr1@gmail.com" class="hover:text-slate-900 dark:hover:text-zinc-300 transition-colors">EMAIL</a>
                 <a href="https://github.com/ulusoyozgur" target="_blank" rel="noopener noreferrer" class="hover:text-slate-900 dark:hover:text-zinc-300 transition-colors">GITHUB</a>
                 <a href="https://www.linkedin.com/in/%C3%B6zg%C3%BCr-ulusoy-314000387/" target="_blank" rel="noopener noreferrer" class="hover:text-slate-900 dark:hover:text-zinc-300 transition-colors">LINKEDIN</a>
@@ -331,6 +357,18 @@
             }
         }
 
+        // Mobil Menü Fonksiyonları
+        const mobileMenuBtn = document.getElementById('mobile-menu-btn');
+        const mobileMenu = document.getElementById('mobile-menu');
+
+        mobileMenuBtn.addEventListener('click', () => {
+            mobileMenu.classList.toggle('hidden');
+        });
+
+        function toggleMobileMenu() {
+             mobileMenu.classList.add('hidden');
+        }
+
         // AKILLI KAMERA VE TAKİP FONKSİYONU 
         let trackerTask = null;
 
@@ -343,8 +381,12 @@
             const overlay = document.getElementById('camera-overlay');
             
             try {
-                // Tarayıcıdan kamera izni iste
-                const stream = await navigator.mediaDevices.getUserMedia({ video: true });
+                // Tarayıcıdan kamera izni iste (Mobil için ön kamera önceliği veya environment)
+                const stream = await navigator.mediaDevices.getUserMedia({ 
+                    video: { 
+                        facingMode: "user" // Mobilde ön kamerayı tercih et
+                    } 
+                });
                 video.srcObject = stream;
                 
                 // Animasyonları aktif et
@@ -401,6 +443,7 @@
                 };
 
             } catch (err) {
+                console.error(err);
                 alert("Kamera erişimi reddedildi veya bulunamadı! Lütfen tarayıcı izinlerini kontrol edin.");
             }
         }
