@@ -1,0 +1,409 @@
+<!DOCTYPE html>
+<html lang="tr" class="scroll-smooth dark">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Özgür Ulusoy | Software & AI Engineer</title>
+    
+    <script src="https://cdn.tailwindcss.com"></script>
+    
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/tracking.js/1.1.3/tracking-min.js"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/tracking.js/1.1.3/data/face-min.js"></script>
+    
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700;800&family=JetBrains+Mono:wght@400;700&display=swap" rel="stylesheet">
+    
+    <script>
+        tailwind.config = {
+            darkMode: 'class', 
+            theme: {
+                extend: {
+                    fontFamily: {
+                        sans: ['Inter', 'sans-serif'],
+                        mono: ['JetBrains Mono', 'monospace'],
+                    },
+                    colors: {
+                        zinc: {
+                            850: '#1f1f22',
+                            950: '#09090b',
+                        }
+                    }
+                }
+            }
+        }
+
+        if (localStorage.theme === 'dark' || (!('theme' in localStorage) && window.matchMedia('(prefers-color-scheme: dark)').matches)) {
+            document.documentElement.classList.add('dark')
+        } else {
+            document.documentElement.classList.remove('dark')
+        }
+    </script>
+    
+    <style>
+        body { 
+            transition: background-color 0.4s ease, color 0.4s ease; 
+            background-color: #f8fafc; 
+            color: #334155; 
+        }
+        html.dark body { 
+            background-color: #09090b; 
+            color: #a1a1aa; 
+        }
+        
+        ::selection { background-color: #cbd5e1; color: #0f172a; }
+        html.dark ::selection { background-color: #e4e4e7; color: #09090b; }
+        
+        .glass-panel { 
+            background: rgba(255, 255, 255, 0.7); 
+            backdrop-filter: blur(12px); 
+            border: 1px solid rgba(226, 232, 240, 0.8); 
+            transition: all 0.4s ease;
+        }
+        .hover-glass:hover { 
+            background: rgba(241, 245, 249, 0.9); 
+            border-color: rgba(203, 213, 225, 0.8); 
+        }
+        
+        html.dark .glass-panel { 
+            background: rgba(24, 24, 27, 0.4); 
+            border-color: rgba(63, 63, 70, 0.4); 
+        }
+        html.dark .hover-glass:hover { 
+            background: rgba(39, 39, 42, 0.6); 
+            border-color: rgba(161, 161, 170, 0.3); 
+        }
+
+        .theme-icon { transition: transform 0.5s cubic-bezier(0.4, 0, 0.2, 1), opacity 0.5s ease; }
+
+        /* CANLI DEMO STİLLERİ GÜNCELLENDİ */
+        #video-container { position: relative; overflow: hidden; border-radius: 1rem; background: #000; }
+        #webcam { width: 100%; height: 100%; object-fit: cover; }
+        
+        #camera-overlay {
+            position: absolute; top: 0; left: 0; width: 100%; height: 100%;
+            pointer-events: none; border: 2px solid transparent; transition: all 0.3s;
+        }
+        .scanning #camera-overlay { box-shadow: inset 0 0 50px rgba(16, 185, 129, 0.2); }
+        .lost #camera-overlay { box-shadow: inset 0 0 50px rgba(239, 68, 68, 0.2); border-color: rgba(239, 68, 68, 0.4); }
+        
+        /* Dinamik Takip Kutusu */
+        .target-box { 
+            position: absolute;
+            border: 2px solid #10b981;
+            display: none; 
+            transition: border-color 0.2s;
+        }
+        
+        .target-box.active { display: block; }
+        .target-box.lost-target { border-color: #ef4444; }
+        
+        .corner { position: absolute; width: 8px; height: 8px; border-color: #10b981; transition: border-color 0.2s; }
+        .lost-target .corner { border-color: #ef4444; }
+        
+        .corner-tl { top: -2px; left: -2px; border-top: 2px solid; border-left: 2px solid; }
+        .corner-tr { top: -2px; right: -2px; border-top: 2px solid; border-right: 2px solid; }
+        .corner-bl { bottom: -2px; left: -2px; border-bottom: 2px solid; border-left: 2px solid; }
+        .corner-br { bottom: -2px; right: -2px; border-bottom: 2px solid; border-right: 2px solid; }
+
+    </style>
+</head>
+<body class="antialiased font-sans flex flex-col min-h-screen">
+
+    <nav class="fixed w-full top-0 z-50 glass-panel border-b-0 dark:border-zinc-800/50 border-slate-200">
+        <div class="max-w-6xl mx-auto px-6 py-5 flex justify-between items-center">
+            
+            <a href="#" class="font-sans text-lg font-bold tracking-tight text-slate-900 dark:text-zinc-100 transition-colors flex items-center">
+                Özgür Ulusoy 
+                <span class="text-blue-600 dark:text-purple-500 ml-1 font-mono animate-pulse">_</span>
+            </a>
+            
+            <div class="hidden md:flex items-center space-x-10 text-[11px] font-sans font-semibold tracking-[0.2em] text-slate-500 dark:text-zinc-400 uppercase">
+                <a href="#about" class="hover:text-slate-900 dark:hover:text-zinc-100 transition-colors duration-300">Hakkımda</a>
+                <a href="#expertise" class="hover:text-slate-900 dark:hover:text-zinc-100 transition-colors duration-300">Yetenekler</a>
+                <a href="#projects" class="hover:text-slate-900 dark:hover:text-zinc-100 transition-colors duration-300">Projeler</a>
+                
+                <a href="#vision-demo" class="text-emerald-500 font-bold hover:text-emerald-400 transition-colors duration-300">CANLI DEMO</a>
+                
+                <button onclick="toggleTheme()" class="relative w-8 h-8 flex items-center justify-center rounded-full bg-slate-200 dark:bg-zinc-800 hover:bg-slate-300 dark:hover:bg-zinc-700 transition-colors ml-2 focus:outline-none" aria-label="Tema Değiştir">
+                    <svg class="w-4 h-4 text-zinc-300 absolute theme-icon scale-0 opacity-0 dark:scale-100 dark:opacity-100" fill="none" viewBox="0 0 24 24" stroke="currentColor">
+                        <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M12 3v1m0 16v1m9-9h-1M4 12H3m15.364 6.364l-.707-.707M6.343 6.343l-.707-.707m12.728 0l-.707.707M6.343 17.657l-.707.707M16 12a4 4 0 11-8 0 4 4 0 018 0z" />
+                    </svg>
+                    <svg class="w-4 h-4 text-slate-700 absolute theme-icon scale-100 opacity-100 dark:scale-0 dark:opacity-0" fill="none" viewBox="0 0 24 24" stroke="currentColor">
+                        <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M20.354 15.354A9 9 0 018.646 3.646 9.003 9.003 0 0012 21a9.003 9.003 0 008.354-5.646z" />
+                    </svg>
+                </button>
+            </div>
+        </div>
+    </nav>
+
+    <main class="flex-grow max-w-6xl mx-auto px-6 pt-32 pb-24 w-full">
+        
+        <section id="about" class="py-20 md:py-32">
+            <div class="flex items-center space-x-3 mb-8">
+                <div class="w-2 h-2 rounded-full bg-blue-600 dark:bg-purple-500 animate-pulse"></div>
+                <span class="font-mono text-xs tracking-widest uppercase text-slate-500 dark:text-zinc-400">Yazılım Mühendisliği & AI</span>
+            </div>
+            
+            <h1 class="text-5xl md:text-7xl lg:text-8xl font-extrabold tracking-tighter text-transparent bg-clip-text bg-gradient-to-b from-slate-900 to-slate-500 dark:from-zinc-100 dark:to-zinc-600 mb-8 leading-[1.1] transition-colors duration-300">
+                Veri odaklı çözümler. <br class="hidden md:block">
+                Akıllı algoritmalar.
+            </h1>
+            
+            <div class="grid grid-cols-1 md:grid-cols-2 gap-12 mt-16">
+                <p class="text-lg text-slate-600 dark:text-zinc-400 leading-relaxed font-light transition-colors">
+                    Karmaşık problemleri modern yazılım mimarileri ve yapay zeka modelleriyle çözüyorum. Veri yapıları, algoritma optimizasyonu ve makine öğrenmesi üzerine yoğunlaşıyorum.
+                </p>
+                <div class="flex flex-col justify-center space-y-4 md:items-end">
+                    <a href="#projects" class="group flex items-center space-x-3 text-sm font-mono tracking-widest uppercase text-slate-900 dark:text-zinc-100 hover:text-blue-600 dark:hover:text-purple-400 transition-colors">
+                        <span>Çalışmaları İncele</span>
+                        <svg class="w-4 h-4 transform group-hover:translate-x-2 transition-transform" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M17 8l4 4m0 0l-4 4m4-4H3"></path></svg>
+                    </a>
+                </div>
+            </div>
+        </section>
+
+        <section id="expertise" class="py-12 border-t border-slate-200 dark:border-zinc-800/50 transition-colors">
+            <div class="grid grid-cols-1 lg:grid-cols-3 gap-6">
+                
+                <div class="glass-panel hover-glass p-8 rounded-2xl flex flex-col justify-between group">
+                    <div>
+                        <h3 class="font-mono text-xs tracking-widest uppercase text-slate-500 dark:text-zinc-500 mb-6 transition-colors">Eğitim</h3>
+                        <h4 class="text-2xl font-bold text-slate-900 dark:text-zinc-100 tracking-tight mb-2 transition-colors">Fırat Üniversitesi</h4>
+                        <p class="text-slate-600 dark:text-zinc-400 font-medium transition-colors">Yazılım Mühendisliği</p>
+                    </div>
+                    <div class="mt-12">
+                        <div class="inline-flex items-center space-x-2 px-3 py-1 rounded-full border border-slate-300 dark:border-zinc-700 bg-slate-100 dark:bg-zinc-800/50 text-xs font-mono text-slate-600 dark:text-zinc-300 transition-colors">
+                            <span class="w-1.5 h-1.5 rounded-full bg-green-500 animate-pulse"></span>
+                            <span>Lisans - 1. Sınıf</span>
+                        </div>
+                    </div>
+                </div>
+
+                <div class="glass-panel hover-glass p-8 rounded-2xl lg:col-span-2 flex flex-col justify-center">
+                    <div class="grid grid-cols-1 md:grid-cols-2 gap-12">
+                        <div>
+                            <h3 class="font-mono text-xs tracking-widest uppercase text-slate-500 dark:text-zinc-500 mb-6 transition-colors">// Temel Yetenekler</h3>
+                            <ul class="space-y-4 text-slate-700 dark:text-zinc-300 font-medium transition-colors">
+                                <li class="flex items-center space-x-3"><span class="w-6 h-[1px] bg-slate-300 dark:bg-zinc-600"></span><span>Nesne Yönelimli Programlama (OOP)</span></li>
+                                <li class="flex items-center space-x-3"><span class="w-6 h-[1px] bg-slate-300 dark:bg-zinc-600"></span><span>Veri Yapıları & Algoritmalar</span></li>
+                                <li class="flex items-center space-x-3"><span class="w-6 h-[1px] bg-slate-300 dark:bg-zinc-600"></span><span>Matematiksel Modelleme</span></li>
+                            </ul>
+                        </div>
+                        <div>
+                            <h3 class="font-mono text-xs tracking-widest uppercase text-slate-500 dark:text-zinc-500 mb-6 transition-colors">// İlgi Alanları & Stack</h3>
+                            <ul class="space-y-4 text-slate-700 dark:text-zinc-300 font-medium transition-colors">
+                                <li class="flex items-center space-x-3"><span class="text-slate-400 dark:text-zinc-600 font-mono">01.</span><span>Python & Java</span></li>
+                                <li class="flex items-center space-x-3"><span class="text-slate-400 dark:text-zinc-600 font-mono">02.</span><span>Yapay Zeka (AI) & ML</span></li>
+                                <li class="flex items-center space-x-3"><span class="text-slate-400 dark:text-zinc-600 font-mono">03.</span><span>Veri Analizi (Pandas/NumPy)</span></li>
+                            </ul>
+                        </div>
+                    </div>
+                </div>
+                
+            </div>
+        </section>
+
+        <section id="projects" class="py-20 border-t border-slate-200 dark:border-zinc-800/50 mt-12 transition-colors">
+            <h2 class="text-3xl font-extrabold tracking-tight text-slate-900 dark:text-zinc-100 mb-12 transition-colors">Projeler & Denemeler.</h2>
+            
+            <div class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6">
+                
+                <div class="glass-panel hover-glass p-8 rounded-2xl group cursor-pointer relative overflow-hidden transition-all duration-300 flex flex-col justify-between">
+                    <div class="absolute top-0 right-0 p-8 opacity-5 dark:opacity-10 group-hover:opacity-10 dark:group-hover:opacity-20 transition-opacity">
+                        <svg class="w-24 h-24 text-slate-900 dark:text-zinc-100" fill="none" viewBox="0 0 24 24" stroke="currentColor"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="1" d="M19.428 15.428a2 2 0 00-1.022-.547l-2.384-.477a6 6 0 00-3.86.517l-.318.158a6 6 0 01-3.86.517L6.05 15.21a2 2 0 00-1.806.547M8 4h8l-1 1v5.172a2 2 0 00.586 1.414l5 5c1.26 1.26.367 3.414-1.415 3.414H4.828c-1.782 0-2.674-2.154-1.414-3.414l5-5A2 2 0 009 10.172V5L8 4z"></path></svg>
+                    </div>
+                    <div class="relative z-10">
+                        <div class="flex items-center justify-between mb-6">
+                            <span class="font-mono text-xs tracking-widest text-blue-600 dark:text-purple-400 uppercase transition-colors">Prototip</span>
+                        </div>
+                        <h3 class="text-2xl font-bold text-slate-900 dark:text-zinc-100 mb-3 transition-colors">Data Insight Model</h3>
+                        <p class="text-sm text-slate-600 dark:text-zinc-400 leading-relaxed mb-8 transition-colors">
+                            Büyük veri setleri üzerinde temel istatistiksel analizler yapan ve Python ile görselleştiren veri işleme aracı.
+                        </p>
+                    </div>
+                    <div class="flex flex-wrap gap-2 relative z-10 mt-auto">
+                        <span class="px-2 py-1 bg-slate-100 dark:bg-zinc-800/50 border border-slate-200 dark:border-zinc-700/50 rounded text-[10px] font-mono text-slate-600 dark:text-zinc-300 transition-colors">PYTHON</span>
+                        <span class="px-2 py-1 bg-slate-100 dark:bg-zinc-800/50 border border-slate-200 dark:border-zinc-700/50 rounded text-[10px] font-mono text-slate-600 dark:text-zinc-300 transition-colors">NUMPY</span>
+                    </div>
+                </div>
+
+                <div class="glass-panel hover-glass p-8 rounded-2xl group cursor-pointer relative overflow-hidden transition-all duration-300 flex flex-col justify-between">
+                    <div class="absolute top-0 right-0 p-8 opacity-5 dark:opacity-10 group-hover:opacity-10 dark:group-hover:opacity-20 transition-opacity">
+                        <svg class="w-24 h-24 text-slate-900 dark:text-zinc-100" fill="none" viewBox="0 0 24 24" stroke="currentColor"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="1" d="M13 10V3L4 14h7v7l9-11h-7z"></path></svg>
+                    </div>
+                    <div class="relative z-10">
+                        <div class="flex items-center justify-between mb-6">
+                            <span class="font-mono text-xs tracking-widest text-slate-500 uppercase transition-colors">Geliştirme Aşamasında</span>
+                        </div>
+                        <h3 class="text-2xl font-bold text-slate-900 dark:text-zinc-100 mb-3 transition-colors">Smart Automation</h3>
+                        <p class="text-sm text-slate-600 dark:text-zinc-400 leading-relaxed mb-8 transition-colors">
+                            Java kullanarak dosya yönetimini otomatize eden ve verimliliği artıran akıllı sistem algoritması.
+                        </p>
+                    </div>
+                    <div class="flex flex-wrap gap-2 relative z-10 mt-auto">
+                        <span class="px-2 py-1 bg-slate-100 dark:bg-zinc-800/50 border border-slate-200 dark:border-zinc-700/50 rounded text-[10px] font-mono text-slate-600 dark:text-zinc-300 transition-colors">JAVA</span>
+                        <span class="px-2 py-1 bg-slate-100 dark:bg-zinc-800/50 border border-slate-200 dark:border-zinc-700/50 rounded text-[10px] font-mono text-slate-600 dark:text-zinc-300 transition-colors">OOP</span>
+                    </div>
+                </div>
+
+                <a href="https://github.com/ulusoyozgur/VisionGuard" target="_blank" rel="noopener noreferrer" class="glass-panel hover-glass p-8 rounded-2xl group cursor-pointer relative overflow-hidden transition-all duration-300 flex flex-col justify-between block">
+                    <div class="absolute top-0 right-0 p-8 opacity-5 dark:opacity-10 group-hover:opacity-10 transition-opacity">
+                        <svg class="w-24 h-24 text-slate-900 dark:text-zinc-100" fill="none" viewBox="0 0 24 24" stroke="currentColor"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="1" d="M15 12a3 3 0 11-6 0 3 3 0 016 0z"></path><path stroke-linecap="round" stroke-linejoin="round" stroke-width="1" d="M2.458 12C3.732 7.943 7.523 5 12 5c4.478 0 8.268 2.943 9.542 7-1.274 4.057-5.064 7-9.542 7-4.477 0-8.268-2.943-9.542-7z"></path></svg>
+                    </div>
+                    
+                    <div class="relative z-10">
+                        <div class="flex items-center justify-between mb-6">
+                            <span class="font-mono text-xs tracking-widest text-emerald-600 dark:text-emerald-400 uppercase transition-colors">Computer Vision</span>
+                        </div>
+                        <h3 class="text-2xl font-bold text-slate-900 dark:text-zinc-100 mb-3 transition-colors">VisionGuard AI</h3>
+                        <p class="text-sm text-slate-600 dark:text-zinc-400 leading-relaxed mb-8 transition-colors">
+                            Python ve OpenCV kullanılarak geliştirilen; Haar Cascade algoritmalarıyla gerçek zamanlı yüz tespiti ve takibi yapan görüntü işleme projesi.
+                        </p>
+                    </div>
+                    <div class="flex flex-wrap gap-2 relative z-10 mt-auto">
+                        <span class="px-2 py-1 bg-slate-100 dark:bg-zinc-800/50 border border-slate-200 dark:border-zinc-700/50 rounded text-[10px] font-mono text-slate-600 dark:text-zinc-300 transition-colors">PYTHON</span>
+                        <span class="px-2 py-1 bg-slate-100 dark:bg-zinc-800/50 border border-slate-200 dark:border-zinc-700/50 rounded text-[10px] font-mono text-slate-600 dark:text-zinc-300 transition-colors">OPENCV</span>
+                    </div>
+                </a>
+
+            </div>
+        </section>
+
+        <section id="vision-demo" class="py-20 border-t border-slate-200 dark:border-zinc-800/50 transition-colors">
+            <h2 class="text-3xl font-extrabold tracking-tight text-slate-900 dark:text-zinc-100 mb-12 transition-colors">VisionGuard <span class="text-emerald-500">Canlı Demo</span>.</h2>
+            
+            <div class="glass-panel p-6 md:p-8 rounded-3xl border-2 border-emerald-500/20 shadow-2xl shadow-emerald-500/5">
+                <div class="flex flex-col md:flex-row gap-8 items-center">
+                    <div class="w-full md:w-2/3">
+                        <div id="video-container" class="aspect-video shadow-2xl shadow-black/50">
+                            <video id="webcam" autoplay playsinline></video>
+                            <div id="camera-overlay">
+                                <div id="target-box" class="target-box">
+                                    <span id="target-text" class="absolute -top-8 left-1/2 -translate-x-1/2 bg-emerald-500 text-white text-[10px] px-2 py-1 rounded font-mono whitespace-nowrap">HEDEF KİLİTLENDİ</span>
+                                    <div class="corner corner-tl"></div>
+                                    <div class="corner corner-tr"></div>
+                                    <div class="corner corner-bl"></div>
+                                    <div class="corner corner-br"></div>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                    <div class="w-full md:w-1/3 space-y-6">
+                        <div class="space-y-2">
+                            <h3 class="text-xl font-bold text-slate-900 dark:text-white transition-colors">Vision Web Engine</h3>
+                            <p class="text-sm text-slate-600 dark:text-zinc-400 transition-colors">Python OpenCV projesinin tarayıcı üzerindeki JavaScript arayüz simülasyonudur. Kamerayı açarak gerçek zamanlı hedef kilitlenmesini test edin.</p>
+                        </div>
+                        <div class="flex flex-col gap-3">
+                            <button onclick="startCamera()" class="px-6 py-4 bg-emerald-600 hover:bg-emerald-500 text-white rounded-xl font-bold transition-all transform active:scale-95 flex items-center justify-center gap-2 shadow-lg shadow-emerald-500/30">
+                                <svg class="w-5 h-5" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path d="M15 10l4.553-2.276A1 1 0 0121 8.618v6.764a1 1 0 01-1.447.894L15 14M5 18h8a2 2 0 002-2V8a2 2 0 00-2-2H5a2 2 0 00-2 2v8a2 2 0 002 2z"></path></svg>
+                                Kamerayı Başlat
+                            </button>
+                            <div id="status-tag" class="hidden text-center font-mono text-xs p-2 rounded bg-slate-100 dark:bg-zinc-800 text-slate-600 dark:text-zinc-400">SİSTEM BAŞLATILIYOR...</div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </section>
+
+    </main>
+
+    <footer class="border-t border-slate-200 dark:border-zinc-800/50 bg-white/80 dark:bg-zinc-950/50 backdrop-blur-md transition-colors">
+        <div class="max-w-6xl mx-auto px-6 py-8 flex flex-col md:flex-row justify-between items-center text-xs font-mono text-slate-500 dark:text-zinc-600 transition-colors">
+            <p>&copy; 2026 Özgür Ulusoy. CODING THE FUTURE.</p>
+            <div class="flex space-x-6 mt-4 md:mt-0">
+                <a href="mailto:ulusoyozgurr1@gmail.com" class="hover:text-slate-900 dark:hover:text-zinc-300 transition-colors">EMAIL</a>
+                <a href="https://github.com/ulusoyozgur" target="_blank" rel="noopener noreferrer" class="hover:text-slate-900 dark:hover:text-zinc-300 transition-colors">GITHUB</a>
+                <a href="https://www.linkedin.com/in/%C3%B6zg%C3%BCr-ulusoy-314000387/" target="_blank" rel="noopener noreferrer" class="hover:text-slate-900 dark:hover:text-zinc-300 transition-colors">LINKEDIN</a>
+            </div>
+        </div>
+    </footer>
+
+    <script>
+        // Tema Değiştirme Fonksiyonu
+        function toggleTheme() {
+            if (document.documentElement.classList.contains('dark')) {
+                document.documentElement.classList.remove('dark');
+                localStorage.theme = 'light';
+            } else {
+                document.documentElement.classList.add('dark');
+                localStorage.theme = 'dark';
+            }
+        }
+
+        // AKILLI KAMERA VE TAKİP FONKSİYONU 
+        let trackerTask = null;
+
+        async function startCamera() {
+            const video = document.getElementById('webcam');
+            const container = document.getElementById('video-container');
+            const targetBox = document.getElementById('target-box');
+            const targetText = document.getElementById('target-text');
+            const statusTag = document.getElementById('status-tag');
+            const overlay = document.getElementById('camera-overlay');
+            
+            try {
+                // Tarayıcıdan kamera izni iste
+                const stream = await navigator.mediaDevices.getUserMedia({ video: true });
+                video.srcObject = stream;
+                
+                // Animasyonları aktif et
+                container.classList.add('scanning');
+                statusTag.classList.remove('hidden');
+                statusTag.innerText = 'TARANIYOR...';
+
+                // Video yüklendiğinde boyutlarını alıp tracker'ı başlat
+                video.onloadedmetadata = function() {
+                    // tracking.js Yüz Takipçisini Başlat (Hassas Ayarlar)
+                    const tracker = new tracking.ObjectTracker('face');
+                    tracker.setInitialScale(1.5); 
+                    tracker.setStepSize(1.5);
+                    tracker.setEdgesDensity(0.08);
+
+                    if(trackerTask) trackerTask.stop();
+                    trackerTask = tracking.track('#webcam', tracker);
+
+                    tracker.on('track', function(event) {
+                        if (event.data.length === 0) {
+                            // YÜZ KAYBOLDU
+                            targetBox.classList.remove('active');
+                            container.classList.add('lost');
+                            
+                            statusTag.innerText = '[ UYARI ] Hedef Görüntüde Yok';
+                            statusTag.className = 'text-center font-mono text-xs p-2 rounded bg-red-100 dark:bg-red-900/30 text-red-600 dark:text-red-400 animate-pulse';
+                        } else {
+                            // YÜZ BULUNDU
+                            container.classList.remove('lost');
+                            targetBox.classList.add('active');
+                            
+                            // İlk bulunan yüzün koordinatlarını al
+                            const rect = event.data[0];
+                            
+                            // Video boyutları ile ekrandaki kutu boyutlarını oranla
+                            const videoWidth = video.videoWidth;
+                            const videoHeight = video.videoHeight;
+                            const rectWidth = video.getBoundingClientRect().width;
+                            const rectHeight = video.getBoundingClientRect().height;
+                            
+                            const scaleX = rectWidth / videoWidth;
+                            const scaleY = rectHeight / videoHeight;
+
+                            // Kutuyu yüzün üzerine taşı
+                            targetBox.style.left = (rect.x * scaleX) + 'px';
+                            targetBox.style.top = (rect.y * scaleY) + 'px';
+                            targetBox.style.width = (rect.width * scaleX) + 'px';
+                            targetBox.style.height = (rect.height * scaleY) + 'px';
+                            
+                            statusTag.innerText = '[ AKTİF ] Yüz Tespit Edildi';
+                            statusTag.className = 'text-center font-mono text-xs p-2 rounded bg-emerald-100 dark:bg-emerald-900/30 text-emerald-600 dark:text-emerald-400';
+                        }
+                    });
+                };
+
+            } catch (err) {
+                alert("Kamera erişimi reddedildi veya bulunamadı! Lütfen tarayıcı izinlerini kontrol edin.");
+            }
+        }
+    </script>
+</body>
+</html>
