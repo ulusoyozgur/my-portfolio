@@ -7,9 +7,6 @@
     
     <script src="https://cdn.tailwindcss.com"></script>
     
-    <script src="https://cdnjs.cloudflare.com/ajax/libs/tracking.js/1.1.3/tracking-min.js"></script>
-    <script src="https://cdnjs.cloudflare.com/ajax/libs/tracking.js/1.1.3/data/face-min.js"></script>
-    
     <link rel="preconnect" href="https://fonts.googleapis.com">
     <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
     <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700;800&family=JetBrains+Mono:wght@400;700&display=swap" rel="stylesheet">
@@ -77,35 +74,6 @@
         }
 
         .theme-icon { transition: transform 0.5s cubic-bezier(0.4, 0, 0.2, 1), opacity 0.5s ease; }
-
-        #video-container { position: relative; overflow: hidden; border-radius: 1rem; background: #000; width: 100%; }
-        #webcam { width: 100%; height: 100%; object-fit: cover; }
-        
-        #camera-overlay {
-            position: absolute; top: 0; left: 0; width: 100%; height: 100%;
-            pointer-events: none; border: 2px solid transparent; transition: all 0.3s;
-        }
-        .scanning #camera-overlay { box-shadow: inset 0 0 50px rgba(16, 185, 129, 0.2); }
-        .lost #camera-overlay { box-shadow: inset 0 0 50px rgba(239, 68, 68, 0.2); border-color: rgba(239, 68, 68, 0.4); }
-        
-        .target-box { 
-            position: absolute;
-            border: 2px solid #10b981;
-            display: none; 
-            transition: border-color 0.2s;
-        }
-        
-        .target-box.active { display: block; }
-        .target-box.lost-target { border-color: #ef4444; }
-        
-        .corner { position: absolute; width: 8px; height: 8px; border-color: #10b981; transition: border-color 0.2s; }
-        .lost-target .corner { border-color: #ef4444; }
-        
-        .corner-tl { top: -2px; left: -2px; border-top: 2px solid; border-left: 2px solid; }
-        .corner-tr { top: -2px; right: -2px; border-top: 2px solid; border-right: 2px solid; }
-        .corner-bl { bottom: -2px; left: -2px; border-bottom: 2px solid; border-left: 2px solid; }
-        .corner-br { bottom: -2px; right: -2px; border-bottom: 2px solid; border-right: 2px solid; }
-
     </style>
 </head>
 <body class="antialiased font-sans flex flex-col min-h-screen">
@@ -122,8 +90,6 @@
                 <a href="#about" class="hover:text-slate-900 dark:hover:text-zinc-100 transition-colors duration-300">Hakkımda</a>
                 <a href="#expertise" class="hover:text-slate-900 dark:hover:text-zinc-100 transition-colors duration-300">Yetenekler</a>
                 <a href="#projects" class="hover:text-slate-900 dark:hover:text-zinc-100 transition-colors duration-300">Projeler</a>
-                
-                <a href="#vision-demo" class="text-emerald-500 font-bold hover:text-emerald-400 transition-colors duration-300">CANLI DEMO</a>
                 
                 <button onclick="toggleTheme()" class="relative w-8 h-8 flex items-center justify-center rounded-full bg-slate-200 dark:bg-zinc-800 hover:bg-slate-300 dark:hover:bg-zinc-700 transition-colors ml-2 focus:outline-none" aria-label="Tema Değiştir">
                     <svg class="w-4 h-4 text-zinc-300 absolute theme-icon scale-0 opacity-0 dark:scale-100 dark:opacity-100" fill="none" viewBox="0 0 24 24" stroke="currentColor">
@@ -157,7 +123,6 @@
                 <a href="#about" onclick="toggleMobileMenu()" class="block py-2 hover:text-blue-600 dark:hover:text-zinc-100 transition-colors">Hakkımda</a>
                 <a href="#expertise" onclick="toggleMobileMenu()" class="block py-2 hover:text-blue-600 dark:hover:text-zinc-100 transition-colors">Yetenekler</a>
                 <a href="#projects" onclick="toggleMobileMenu()" class="block py-2 hover:text-blue-600 dark:hover:text-zinc-100 transition-colors">Projeler</a>
-                <a href="#vision-demo" onclick="toggleMobileMenu()" class="block py-2 text-emerald-600 dark:text-emerald-500 font-extrabold hover:text-emerald-400 transition-colors">CANLI DEMO</a>
             </div>
         </div>
     </nav>
@@ -167,7 +132,7 @@
         <section id="about" class="py-12 md:py-32">
             <div class="flex items-center space-x-3 mb-8">
                 <div class="w-2 h-2 rounded-full bg-blue-600 dark:bg-purple-500 animate-pulse"></div>
-                <span class="font-mono text-xs tracking-widest uppercase text-slate-500 dark:text-zinc-400">Yazılım Mühendisliği & AI</span>
+                <span class="font-mono text-xs tracking-widest uppercase text-slate-500 dark:text-zinc-400">Software & AI Engineering</span>
             </div>
             
             <h1 class="text-4xl md:text-7xl lg:text-8xl font-extrabold tracking-tighter text-transparent bg-clip-text bg-gradient-to-b from-slate-900 to-slate-500 dark:from-zinc-100 dark:to-zinc-600 mb-8 leading-[1.1] transition-colors duration-300">
@@ -177,7 +142,7 @@
             
             <div class="grid grid-cols-1 md:grid-cols-2 gap-8 md:gap-12 mt-8 md:mt-16">
                 <p class="text-base md:text-lg text-slate-600 dark:text-zinc-400 leading-relaxed font-light transition-colors">
-                    Karmaşık problemleri modern yazılım mimarileri ve yapay zeka modelleriyle çözüyorum. Veri yapıları, algoritma optimizasyonu ve makine öğrenmesi üzerine yoğunlaşıyorum.
+                    Ham veriyi anlamlı içgörülere, karmaşık problemleri ise akıllı ve otonom sistemlere dönüştürüyorum. Temel veri yapıları ve algoritma optimizasyonundan güç alarak, ölçeklenebilir makine öğrenmesi modelleri inşa ediyorum.
                 </p>
                 <div class="flex flex-col justify-center space-y-4 md:items-end">
                     <a href="#projects" class="group flex items-center space-x-3 text-sm font-mono tracking-widest uppercase text-slate-900 dark:text-zinc-100 hover:text-blue-600 dark:hover:text-purple-400 transition-colors">
@@ -234,6 +199,26 @@
             
             <div class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6">
                 
+                <a href="https://github.com/ulusoyozgur/VisionGuard" target="_blank" rel="noopener noreferrer" class="glass-panel hover-glass p-6 md:p-8 rounded-2xl group cursor-pointer relative overflow-hidden transition-all duration-300 flex flex-col justify-between block">
+                    <div class="absolute top-0 right-0 p-8 opacity-5 dark:opacity-10 group-hover:opacity-10 transition-opacity">
+                        <svg class="w-24 h-24 text-slate-900 dark:text-zinc-100" fill="none" viewBox="0 0 24 24" stroke="currentColor"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="1" d="M15 12a3 3 0 11-6 0 3 3 0 016 0z"></path><path stroke-linecap="round" stroke-linejoin="round" stroke-width="1" d="M2.458 12C3.732 7.943 7.523 5 12 5c4.478 0 8.268 2.943 9.542 7-1.274 4.057-5.064 7-9.542 7-4.477 0-8.268-2.943-9.542-7z"></path></svg>
+                    </div>
+                    
+                    <div class="relative z-10">
+                        <div class="flex items-center justify-between mb-6">
+                            <span class="font-mono text-xs tracking-widest text-emerald-600 dark:text-emerald-400 uppercase transition-colors">Computer Vision</span>
+                        </div>
+                        <h3 class="text-xl md:text-2xl font-bold text-slate-900 dark:text-zinc-100 mb-3 transition-colors">VisionGuard AI</h3>
+                        <p class="text-sm text-slate-600 dark:text-zinc-400 leading-relaxed mb-8 transition-colors">
+                            Python ve OpenCV kullanılarak geliştirilen; Haar Cascade algoritmalarıyla gerçek zamanlı yüz tespiti ve takibi yapan görüntü işleme projesi.
+                        </p>
+                    </div>
+                    <div class="flex flex-wrap gap-2 relative z-10 mt-auto">
+                        <span class="px-2 py-1 bg-slate-100 dark:bg-zinc-800/50 border border-slate-200 dark:border-zinc-700/50 rounded text-[10px] font-mono text-slate-600 dark:text-zinc-300 transition-colors">PYTHON</span>
+                        <span class="px-2 py-1 bg-slate-100 dark:bg-zinc-800/50 border border-slate-200 dark:border-zinc-700/50 rounded text-[10px] font-mono text-slate-600 dark:text-zinc-300 transition-colors">OPENCV</span>
+                    </div>
+                </a>
+
                 <div class="glass-panel hover-glass p-6 md:p-8 rounded-2xl group cursor-pointer relative overflow-hidden transition-all duration-300 flex flex-col justify-between">
                     <div class="absolute top-0 right-0 p-8 opacity-5 dark:opacity-10 group-hover:opacity-10 dark:group-hover:opacity-20 transition-opacity">
                         <svg class="w-24 h-24 text-slate-900 dark:text-zinc-100" fill="none" viewBox="0 0 24 24" stroke="currentColor"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="1" d="M19.428 15.428a2 2 0 00-1.022-.547l-2.384-.477a6 6 0 00-3.86.517l-.318.158a6 6 0 01-3.86.517L6.05 15.21a2 2 0 00-1.806.547M8 4h8l-1 1v5.172a2 2 0 00.586 1.414l5 5c1.26 1.26.367 3.414-1.415 3.414H4.828c-1.782 0-2.674-2.154-1.414-3.414l5-5A2 2 0 009 10.172V5L8 4z"></path></svg>
@@ -272,62 +257,6 @@
                     </div>
                 </div>
 
-                <a href="https://github.com/ulusoyozgur/VisionGuard" target="_blank" rel="noopener noreferrer" class="glass-panel hover-glass p-6 md:p-8 rounded-2xl group cursor-pointer relative overflow-hidden transition-all duration-300 flex flex-col justify-between block">
-                    <div class="absolute top-0 right-0 p-8 opacity-5 dark:opacity-10 group-hover:opacity-10 transition-opacity">
-                        <svg class="w-24 h-24 text-slate-900 dark:text-zinc-100" fill="none" viewBox="0 0 24 24" stroke="currentColor"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="1" d="M15 12a3 3 0 11-6 0 3 3 0 016 0z"></path><path stroke-linecap="round" stroke-linejoin="round" stroke-width="1" d="M2.458 12C3.732 7.943 7.523 5 12 5c4.478 0 8.268 2.943 9.542 7-1.274 4.057-5.064 7-9.542 7-4.477 0-8.268-2.943-9.542-7z"></path></svg>
-                    </div>
-                    
-                    <div class="relative z-10">
-                        <div class="flex items-center justify-between mb-6">
-                            <span class="font-mono text-xs tracking-widest text-emerald-600 dark:text-emerald-400 uppercase transition-colors">Computer Vision</span>
-                        </div>
-                        <h3 class="text-xl md:text-2xl font-bold text-slate-900 dark:text-zinc-100 mb-3 transition-colors">VisionGuard AI</h3>
-                        <p class="text-sm text-slate-600 dark:text-zinc-400 leading-relaxed mb-8 transition-colors">
-                            Python ve OpenCV kullanılarak geliştirilen; Haar Cascade algoritmalarıyla gerçek zamanlı yüz tespiti ve takibi yapan görüntü işleme projesi.
-                        </p>
-                    </div>
-                    <div class="flex flex-wrap gap-2 relative z-10 mt-auto">
-                        <span class="px-2 py-1 bg-slate-100 dark:bg-zinc-800/50 border border-slate-200 dark:border-zinc-700/50 rounded text-[10px] font-mono text-slate-600 dark:text-zinc-300 transition-colors">PYTHON</span>
-                        <span class="px-2 py-1 bg-slate-100 dark:bg-zinc-800/50 border border-slate-200 dark:border-zinc-700/50 rounded text-[10px] font-mono text-slate-600 dark:text-zinc-300 transition-colors">OPENCV</span>
-                    </div>
-                </a>
-
-            </div>
-        </section>
-
-        <section id="vision-demo" class="py-12 md:py-20 border-t border-slate-200 dark:border-zinc-800/50 transition-colors">
-            <h2 class="text-2xl md:text-3xl font-extrabold tracking-tight text-slate-900 dark:text-zinc-100 mb-8 md:mb-12 transition-colors">VisionGuard <span class="text-emerald-500">Canlı Demo</span>.</h2>
-            
-            <div class="glass-panel p-4 md:p-8 rounded-3xl border-2 border-emerald-500/20 shadow-2xl shadow-emerald-500/5">
-                <div class="flex flex-col md:flex-row gap-8 items-center">
-                    <div class="w-full md:w-2/3">
-                        <div id="video-container" class="aspect-video shadow-2xl shadow-black/50 w-full relative">
-                            <video id="webcam" autoplay playsinline muted></video>
-                            <div id="camera-overlay">
-                                <div id="target-box" class="target-box">
-                                    <span id="target-text" class="absolute -top-8 left-1/2 -translate-x-1/2 bg-emerald-500 text-white text-[10px] px-2 py-1 rounded font-mono whitespace-nowrap">HEDEF KİLİTLENDİ</span>
-                                    <div class="corner corner-tl"></div>
-                                    <div class="corner corner-tr"></div>
-                                    <div class="corner corner-bl"></div>
-                                    <div class="corner corner-br"></div>
-                                </div>
-                            </div>
-                        </div>
-                    </div>
-                    <div class="w-full md:w-1/3 space-y-6">
-                        <div class="space-y-2">
-                            <h3 class="text-xl font-bold text-slate-900 dark:text-white transition-colors">Vision Web Engine</h3>
-                            <p class="text-sm text-slate-600 dark:text-zinc-400 transition-colors">Python OpenCV projesinin tarayıcı üzerindeki JavaScript arayüz simülasyonudur. Kamerayı açarak gerçek zamanlı hedef kilitlenmesini test edin.</p>
-                        </div>
-                        <div class="flex flex-col gap-3">
-                            <button onclick="startCamera()" class="px-6 py-4 bg-emerald-600 hover:bg-emerald-500 text-white rounded-xl font-bold transition-all transform active:scale-95 flex items-center justify-center gap-2 shadow-lg shadow-emerald-500/30">
-                                <svg class="w-5 h-5" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path d="M15 10l4.553-2.276A1 1 0 0121 8.618v6.764a1 1 0 01-1.447.894L15 14M5 18h8a2 2 0 002-2V8a2 2 0 00-2-2H5a2 2 0 00-2 2v8a2 2 0 002 2z"></path></svg>
-                                Kamerayı Başlat
-                            </button>
-                            <div id="status-tag" class="hidden text-center font-mono text-xs p-2 rounded bg-slate-100 dark:bg-zinc-800 text-slate-600 dark:text-zinc-400">SİSTEM BAŞLATILIYOR...</div>
-                        </div>
-                    </div>
-                </div>
             </div>
         </section>
 
@@ -345,7 +274,6 @@
     </footer>
 
     <script>
-        // Tema Değiştirme Fonksiyonu
         function toggleTheme() {
             if (document.documentElement.classList.contains('dark')) {
                 document.documentElement.classList.remove('dark');
@@ -356,7 +284,6 @@
             }
         }
 
-        // Mobil Menü Fonksiyonları
         const mobileMenuBtn = document.getElementById('mobile-menu-btn');
         const mobileMenu = document.getElementById('mobile-menu');
 
@@ -366,85 +293,6 @@
 
         function toggleMobileMenu() {
              mobileMenu.classList.add('hidden');
-        }
-
-        // AKILLI KAMERA VE TAKİP FONKSİYONU 
-        let trackerTask = null;
-
-        async function startCamera() {
-            const video = document.getElementById('webcam');
-            const container = document.getElementById('video-container');
-            const targetBox = document.getElementById('target-box');
-            const targetText = document.getElementById('target-text');
-            const statusTag = document.getElementById('status-tag');
-            const overlay = document.getElementById('camera-overlay');
-            
-            try {
-                // Tarayıcıdan kamera izni iste (Mobil için ön kamera önceliği veya environment)
-                const stream = await navigator.mediaDevices.getUserMedia({ 
-                    video: { 
-                        facingMode: "user" // Mobilde ön kamerayı tercih et
-                    } 
-                });
-                video.srcObject = stream;
-                
-                // Animasyonları aktif et
-                container.classList.add('scanning');
-                statusTag.classList.remove('hidden');
-                statusTag.innerText = 'TARANIYOR...';
-
-                // Video yüklendiğinde boyutlarını alıp tracker'ı başlat
-                video.onloadedmetadata = function() {
-                    // tracking.js Yüz Takipçisini Başlat (Hassas Ayarlar)
-                    const tracker = new tracking.ObjectTracker('face');
-                    tracker.setInitialScale(1.5); 
-                    tracker.setStepSize(1.5);
-                    tracker.setEdgesDensity(0.08);
-
-                    if(trackerTask) trackerTask.stop();
-                    trackerTask = tracking.track('#webcam', tracker);
-
-                    tracker.on('track', function(event) {
-                        if (event.data.length === 0) {
-                            // YÜZ KAYBOLDU
-                            targetBox.classList.remove('active');
-                            container.classList.add('lost');
-                            
-                            statusTag.innerText = '[ UYARI ] Hedef Görüntüde Yok';
-                            statusTag.className = 'text-center font-mono text-xs p-2 rounded bg-red-100 dark:bg-red-900/30 text-red-600 dark:text-red-400 animate-pulse';
-                        } else {
-                            // YÜZ BULUNDU
-                            container.classList.remove('lost');
-                            targetBox.classList.add('active');
-                            
-                            // İlk bulunan yüzün koordinatlarını al
-                            const rect = event.data[0];
-                            
-                            // Video boyutları ile ekrandaki kutu boyutlarını oranla
-                            const videoWidth = video.videoWidth;
-                            const videoHeight = video.videoHeight;
-                            const rectWidth = video.getBoundingClientRect().width;
-                            const rectHeight = video.getBoundingClientRect().height;
-                            
-                            const scaleX = rectWidth / videoWidth;
-                            const scaleY = rectHeight / videoHeight;
-
-                            // Kutuyu yüzün üzerine taşı
-                            targetBox.style.left = (rect.x * scaleX) + 'px';
-                            targetBox.style.top = (rect.y * scaleY) + 'px';
-                            targetBox.style.width = (rect.width * scaleX) + 'px';
-                            targetBox.style.height = (rect.height * scaleY) + 'px';
-                            
-                            statusTag.innerText = '[ AKTİF ] Yüz Tespit Edildi';
-                            statusTag.className = 'text-center font-mono text-xs p-2 rounded bg-emerald-100 dark:bg-emerald-900/30 text-emerald-600 dark:text-emerald-400';
-                        }
-                    });
-                };
-
-            } catch (err) {
-                console.error(err);
-                alert("Kamera erişimi reddedildi veya bulunamadı! Lütfen tarayıcı izinlerini kontrol edin.");
-            }
         }
     </script>
 </body>
